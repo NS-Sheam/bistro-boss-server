@@ -157,7 +157,6 @@ async function run() {
             const result = await menuCollection.insertOne(newItem);
             res.send(result);
         })
-fd
         app.delete("/menu/:id", verifyJWT, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             console.log(id);
@@ -165,7 +164,7 @@ fd
             const result = await menuCollection.deleteOne(query);
             res.send(result);
         })
-
+fdf
         // review reletad api 
         app.get("/reviews", async (req, res) => {
             const result = await reviewCollection.find().toArray();
