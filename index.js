@@ -157,7 +157,7 @@ async function run() {
             const result = await menuCollection.insertOne(newItem);
             res.send(result);
         })
-
+fd
         app.delete("/menu/:id", verifyJWT, verifyAdmin, async (req, res) => {
             const id = req.params.id;
             console.log(id);
