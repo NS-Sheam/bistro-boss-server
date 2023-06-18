@@ -11,7 +11,7 @@ app.use(express.json());
 
 const verifyJWT = (req, res, next) => {
     const authorization = req.headers.authorization;
-    console.log(authorization);
+    // console.log(authorization);
     // console.log(authorization);
     if (!authorization) {
         return res.status(401).send({ error: true, message: "unauthorized access" })
@@ -120,7 +120,7 @@ async function run() {
             // console.log(email, req.decoded.email);
             const user = await usersCollection.findOne(query);
             const result = { admin: user?.role === "admin" };
-            console.log(result);
+            // console.log(result);
             res.send(result);
         })
 
@@ -152,6 +152,20 @@ async function run() {
             res.send(result);
         })
 
+        app.post("/menu", verifyJWT, verifyAdmin, async (req, res) => {
+            const newItem = req.body;
+            const result = await menuCollection.insertOne(newItem);
+            res.send(result);
+        })
+
+        app.delete("/menu/:id", verifyJWT, verifyAdmin, async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id : new ObjectId(id) }
+            const result = await menuCollection.deleteOne(query);
+            res.send(result);
+        })
+
         // review reletad api 
         app.get("/reviews", async (req, res) => {
             const result = await reviewCollection.find().toArray();
@@ -161,7 +175,7 @@ async function run() {
         // cart collection 
         app.get("/carts", verifyJWT, async (req, res) => {
             const email = req.query.email;
-            console.log(email);
+            // console.log(email);
             if (!email) {
                 res.send([]);
             }
